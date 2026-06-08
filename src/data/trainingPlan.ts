@@ -45,7 +45,7 @@ export const trainingSessions: TrainingSession[] = [
       {
         id: 'warmup-d1',
         name: 'Warm-up',
-        durationMinutes: 15,
+        durationMinutes: 10,
         drills: [
           {
             id: 'dynamic-stretch',
@@ -60,17 +60,6 @@ export const trainingSessions: TrainingSession[] = [
             type: 'time',
             durationMinutes: 5,
             instructions: ['Rally from the service line with control and rhythm.'],
-          },
-          {
-            id: 'movement-warmup',
-            name: 'Side shuffles, carioca, split-step',
-            type: 'time',
-            durationMinutes: 5,
-            instructions: [
-              'Side shuffles across the court.',
-              'Carioca footwork pattern.',
-              'Split-step before every imaginary contact.',
-            ],
           },
         ],
       },
@@ -88,7 +77,6 @@ export const trainingSessions: TrainingSession[] = [
             repsPerSet: 25,
             instructions: ['3 sets of 25-ball rallies crosscourt.'],
             focus: ['Height over the net', 'Deep targets', 'Recover to ready position after every shot'],
-            videos: [{ label: 'Stokke consistency drills', url: 'https://youtu.be/-WJ5UrKXyHE' }],
           },
           {
             id: 'bh-crosscourt',
@@ -109,35 +97,105 @@ export const trainingSessions: TrainingSession[] = [
         ],
       },
       {
-        id: 'movement-drill',
-        name: 'Movement Drill',
-        durationMinutes: 20,
+        id: 'consistency-drills',
+        name: 'Consistency Drills',
+        durationMinutes: 40,
+        goal: 'Consistency over power; practice with pressure.',
         drills: [
           {
-            id: 'xc-dtl-pattern',
-            name: 'Crosscourt → down-the-line pattern',
-            type: 'reps',
-            reps: 15,
+            id: 'tempo-drill',
+            name: 'Tempo Drill',
+            type: 'rounds',
+            sets: 5,
+            durationMinutes: 1,
+            target: '5 rounds × 1 minute',
             instructions: [
-              'Coach/partner feeds randomly.',
-              'Hit 1 ball crosscourt, recover.',
-              'Hit next ball down the line, recover.',
-              'Continue for 10–15 balls.',
+              'Baseline drill: make as many shots as possible within one minute.',
+              'Focus on rhythm and early ball striking.',
             ],
-            focus: ['Split-step before opponent contact', 'Small adjustment steps', 'Balanced hitting stance'],
+            videos: [{
+              label: 'Stokke Consistency Drills — Tempo',
+              url: 'https://www.youtube.com/watch?v=-WJ5UrKXyHE',
+              startSeconds: 9,
+            }],
+          },
+          {
+            id: 'depth-drill',
+            name: 'Depth Drill',
+            type: 'rounds',
+            sets: 5,
+            durationMinutes: 1,
+            target: '5 rounds × 1 minute',
+            instructions: [
+              'Upgrade to the tempo drill — only shots landing past the yellow service lines count.',
+              'Emphasize hitting with quality and depth.',
+            ],
+            videos: [{
+              label: 'Stokke Consistency Drills — Depth',
+              url: 'https://www.youtube.com/watch?v=-WJ5UrKXyHE',
+              startSeconds: 76,
+            }],
+          },
+          {
+            id: 'movement-consistency-drill',
+            name: 'Movement Drill',
+            type: 'time',
+            durationMinutes: 10,
+            instructions: [
+              'Add side-to-side movement while changing directions (crosscourt and down-the-line).',
+              'Simulate match-like conditions.',
+            ],
+            videos: [{
+              label: 'Stokke Consistency Drills — Movement',
+              url: 'https://www.youtube.com/watch?v=-WJ5UrKXyHE',
+              startSeconds: 142,
+            }],
+          },
+          {
+            id: 'movement-depth-drill',
+            name: 'Movement with Depth',
+            type: 'time',
+            durationMinutes: 10,
+            instructions: [
+              'Combine movement and depth — maintain depth while moving to different spots on the court.',
+            ],
+            videos: [{
+              label: 'Stokke Consistency Drills — Movement with Depth',
+              url: 'https://www.youtube.com/watch?v=-WJ5UrKXyHE',
+              startSeconds: 209,
+            }],
+          },
+          {
+            id: 'abcd-target-drill',
+            name: 'ABCD Target Drill',
+            type: 'time',
+            durationMinutes: 10,
+            instructions: [
+              'Hit targets labeled A, B, C, and D in order to complete a set.',
+              'As you progress, add complexity: start with a serve and return to mimic real point play.',
+            ],
+            focus: [
+              'Consistency over power — putting the ball in play wins matches.',
+              'Practice with pressure — timed sets and sequences mimic match mental strain.',
+            ],
+            videos: [{
+              label: 'Stokke Consistency Drills — ABCD Target',
+              url: 'https://www.youtube.com/watch?v=-WJ5UrKXyHE',
+              startSeconds: 278,
+            }],
           },
         ],
       },
       {
         id: 'consistency-challenge',
         name: 'Consistency Challenge',
-        durationMinutes: 15,
+        durationMinutes: 10,
         drills: [
           {
             id: 'six-shot-rule',
             name: 'Six-shot before attack',
             type: 'points',
-            durationMinutes: 15,
+            durationMinutes: 10,
             instructions: [
               'Play points where you must make 6 shots before trying to attack.',
               'Keep score only on unforced errors.',

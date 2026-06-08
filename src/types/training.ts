@@ -1,4 +1,4 @@
-export type DrillType = 'time' | 'reps' | 'sets' | 'points' | 'info'
+export type DrillType = 'time' | 'rounds' | 'reps' | 'sets' | 'points' | 'info'
 
 export interface VideoLink {
   label: string

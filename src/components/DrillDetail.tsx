@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import type { Drill, VideoLink } from '../types/training'
 import { RepCounter } from './RepCounter'
+import { RoundTimerPanel } from './RoundTimerPanel'
 import { TimerPanel } from './TimerPanel'
 import { VideoEmbedModal } from './VideoEmbedModal'
 import { isEmbeddable } from '../utils/videoEmbed'
@@ -26,6 +27,7 @@ export function DrillDetail({
 }: DrillDetailProps) {
   const [activeVideo, setActiveVideo] = useState<VideoLink | null>(null)
   const showTimer = drill.type === 'time' || drill.type === 'points'
+  const showRoundTimer = drill.type === 'rounds'
   const showReps = drill.type === 'reps' || drill.type === 'sets'
 
   const openVideo = (video: VideoLink) => {
@@ -83,6 +85,10 @@ export function DrillDetail({
 
       {activeVideo && (
         <VideoEmbedModal video={activeVideo} onClose={() => setActiveVideo(null)} />
+      )}
+
+      {showRoundTimer && drill.sets && drill.durationMinutes && (
+        <RoundTimerPanel key={drill.id} rounds={drill.sets} durationMinutes={drill.durationMinutes} />
       )}
 
       {showTimer && drill.durationMinutes && (
