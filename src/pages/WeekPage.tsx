@@ -18,7 +18,7 @@ export function WeekPage() {
       <header className="page-header">
         <p className="eyebrow">Weekly plan</p>
         <h1>Your training week</h1>
-        <p className="subtitle">3–4 on-court sessions plus daily footwork</p>
+        <p className="subtitle">7-day structured plan — one focus per day</p>
       </header>
 
       <div className="week-list">
@@ -31,7 +31,7 @@ export function WeekPage() {
             <div key={day.key} className={`week-card ${isToday ? 'today' : ''}`}>
               <div className="week-card-top">
                 <div>
-                  <span className="day-label">{day.shortLabel}</span>
+                  <span className="day-label">{day.label}</span>
                   {isToday && <span className="today-badge">Today</span>}
                 </div>
                 {session && <ProgressRing value={completion} size={40} stroke={3} />}
