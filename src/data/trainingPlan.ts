@@ -592,7 +592,7 @@ export const trainingSessions: TrainingSession[] = [
               'Shadow returns.',
             ],
             focus: ['Split as the server contacts the ball', 'Quick first move to the ball'],
-            videos: [{ label: 'Serve return footwork', url: 'https://youtu.be/kw_4S5C57zE' }],
+            videos: [{ label: 'Serve Return Footwork', url: 'https://www.instagram.com/p/DT1mOE-k5PG/' }],
           },
         ],
       },
@@ -653,6 +653,7 @@ export const trainingSessions: TrainingSession[] = [
               'Target deep crosscourt.',
             ],
             focus: ['Compact backswing', 'Early preparation', 'Stable head'],
+            videos: [{ label: 'Serve Return Footwork', url: 'https://www.instagram.com/p/DT1mOE-k5PG/' }],
           },
           {
             id: 'directional-returns',

@@ -1,6 +1,9 @@
-import type { Drill } from '../types/training'
+import { useState } from 'react'
+import type { Drill, VideoLink } from '../types/training'
 import { RepCounter } from './RepCounter'
 import { TimerPanel } from './TimerPanel'
+import { VideoEmbedModal } from './VideoEmbedModal'
+import { isEmbeddable } from '../utils/videoEmbed'
 
 interface DrillDetailProps {
   drill: Drill
@@ -21,8 +24,17 @@ export function DrillDetail({
   onRepsChange,
   onSetsChange,
 }: DrillDetailProps) {
+  const [activeVideo, setActiveVideo] = useState<VideoLink | null>(null)
   const showTimer = drill.type === 'time' || drill.type === 'points'
   const showReps = drill.type === 'reps' || drill.type === 'sets'
+
+  const openVideo = (video: VideoLink) => {
+    if (isEmbeddable(video.url)) {
+      setActiveVideo(video)
+    } else {
+      window.open(video.url, '_blank', 'noopener,noreferrer')
+    }
+  }
 
   return (
     <article className={`drill-detail ${completed ? 'completed' : ''}`}>
@@ -60,12 +72,17 @@ export function DrillDetail({
 
       {drill.videos && drill.videos.length > 0 && (
         <div className="video-links">
+          <h3>Video tip</h3>
           {drill.videos.map((v) => (
-            <a key={v.url} href={v.url} target="_blank" rel="noopener noreferrer" className="video-link">
+            <button key={v.url} type="button" className="video-link" onClick={() => openVideo(v)}>
               ▶ {v.label}
-            </a>
+            </button>
           ))}
         </div>
+      )}
+
+      {activeVideo && (
+        <VideoEmbedModal video={activeVideo} onClose={() => setActiveVideo(null)} />
       )}
 
       {showTimer && drill.durationMinutes && (
