@@ -3,6 +3,7 @@ export type DrillType = 'time' | 'reps' | 'sets' | 'points' | 'info'
 export interface VideoLink {
   label: string
   url: string
+  startSeconds?: number
 }
 
 export interface Drill {

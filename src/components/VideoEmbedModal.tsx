@@ -8,8 +8,11 @@ interface VideoEmbedModalProps {
 }
 
 export function VideoEmbedModal({ video, onClose }: VideoEmbedModalProps) {
-  const embedUrl = getEmbedUrl(video.url)
+  const embedUrl = getEmbedUrl(video.url, video.startSeconds)
   const isInstagram = video.url.includes('instagram.com')
+  const externalUrl = video.startSeconds != null && !isInstagram
+    ? `${video.url}${video.url.includes('?') ? '&' : '?'}t=${video.startSeconds}s`
+    : video.url
 
   useEffect(() => {
     const onKeyDown = (e: KeyboardEvent) => {
@@ -49,7 +52,7 @@ export function VideoEmbedModal({ video, onClose }: VideoEmbedModalProps) {
             loading="lazy"
           />
         </div>
-        <a href={video.url} target="_blank" rel="noopener noreferrer" className="video-modal-external">
+        <a href={externalUrl} target="_blank" rel="noopener noreferrer" className="video-modal-external">
           Open in {isInstagram ? 'Instagram' : 'YouTube'} →
         </a>
       </div>

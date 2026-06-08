@@ -48,7 +48,7 @@ export function WeekPage() {
                   <h3>{session.title}</h3>
                   <p className="muted">{session.durationMinutes} min</p>
                   <div className="tag-row compact">
-                    {session.tags.slice(0, 2).map((t) => (
+                    {session.tags.map((t) => (
                       <span key={t} className="tag">{t}</span>
                     ))}
                   </div>

@@ -72,7 +72,7 @@ export function DrillDetail({
 
       {drill.videos && drill.videos.length > 0 && (
         <div className="video-links">
-          <h3>Video tip</h3>
+          <h3>Video Instruction</h3>
           {drill.videos.map((v) => (
             <button key={v.url} type="button" className="video-link" onClick={() => openVideo(v)}>
               ▶ {v.label}
