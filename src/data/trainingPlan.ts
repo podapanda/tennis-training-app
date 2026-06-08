@@ -247,34 +247,6 @@ export const trainingSessions: TrainingSession[] = [
     tags: ['Doubles', 'Poaching', 'Serve'],
     blocks: [
       {
-        id: 'serve-first-ball',
-        name: 'Serve + First Ball',
-        durationMinutes: 20,
-        drills: [
-          {
-            id: 'wide-serve-poach',
-            name: 'Wide serve + poach',
-            type: 'reps',
-            reps: 10,
-            instructions: ['Wide serve, net player poaches on return.'],
-          },
-          {
-            id: 'body-serve-poach',
-            name: 'Body serve + poach',
-            type: 'reps',
-            reps: 10,
-            instructions: ['Body serve, net player poaches on return.'],
-          },
-          {
-            id: 'serve-and-stay',
-            name: 'Serve and stay',
-            type: 'reps',
-            reps: 10,
-            instructions: ['Serve and hold net position without poaching.'],
-          },
-        ],
-      },
-      {
         id: 'poaching-drill',
         name: 'Poaching Drill',
         durationMinutes: 20,
@@ -320,6 +292,34 @@ export const trainingSessions: TrainingSession[] = [
             durationMinutes: 9,
             instructions: ['Practice both formations and transitions.'],
             focus: ['Keep returns low', 'Attack middle', 'Move as a team'],
+          },
+        ],
+      },
+      {
+        id: 'serve-first-ball',
+        name: 'Serve + First Ball',
+        durationMinutes: 20,
+        drills: [
+          {
+            id: 'wide-serve-poach',
+            name: 'Wide serve + poach',
+            type: 'reps',
+            reps: 10,
+            instructions: ['Wide serve, net player poaches on return.'],
+          },
+          {
+            id: 'body-serve-poach',
+            name: 'Body serve + poach',
+            type: 'reps',
+            reps: 10,
+            instructions: ['Body serve, net player poaches on return.'],
+          },
+          {
+            id: 'serve-and-stay',
+            name: 'Serve and stay',
+            type: 'reps',
+            reps: 10,
+            instructions: ['Serve and hold net position without poaching.'],
           },
         ],
       },
