@@ -169,6 +169,17 @@ export const trainingSessions: TrainingSession[] = [
         ],
       },
       {
+        id: 'volley-series',
+        name: 'Volley Series',
+        durationMinutes: 15,
+        drills: [
+          { id: 'fh-volleys', name: 'Forehand volleys', type: 'time', durationMinutes: 4, instructions: ['Focus on compact unit turn and firm contact.'] },
+          { id: 'bh-volleys', name: 'Backhand volleys', type: 'time', durationMinutes: 4, instructions: ['Stay square and punch through the ball.'] },
+          { id: 'reflex-volleys', name: 'Reflex volleys', type: 'time', durationMinutes: 4, instructions: ['Quick reactions at close range.'] },
+          { id: 'overheads', name: 'Overheads', type: 'time', durationMinutes: 3, instructions: ['Turn sideways, track the lob, finish with authority.'] },
+        ],
+      },
+      {
         id: 'approach-patterns',
         name: 'Approach Shot Patterns',
         durationMinutes: 30,
@@ -223,17 +234,6 @@ export const trainingSessions: TrainingSession[] = [
               'Point continues live.',
             ],
           },
-        ],
-      },
-      {
-        id: 'volley-series',
-        name: 'Volley Series',
-        durationMinutes: 15,
-        drills: [
-          { id: 'fh-volleys', name: 'Forehand volleys', type: 'time', durationMinutes: 4, instructions: ['Focus on compact unit turn and firm contact.'] },
-          { id: 'bh-volleys', name: 'Backhand volleys', type: 'time', durationMinutes: 4, instructions: ['Stay square and punch through the ball.'] },
-          { id: 'reflex-volleys', name: 'Reflex volleys', type: 'time', durationMinutes: 4, instructions: ['Quick reactions at close range.'] },
-          { id: 'overheads', name: 'Overheads', type: 'time', durationMinutes: 3, instructions: ['Turn sideways, track the lob, finish with authority.'] },
         ],
       },
     ],
