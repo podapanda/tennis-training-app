@@ -1,31 +1,36 @@
 import { Link } from 'react-router-dom'
-import { getSessionById, weekSchedule } from '../data/trainingPlan'
+import { getSessionById } from '../data/plans'
 import { useProgress } from '../hooks/useProgress'
+import { useTrainingPlan } from '../hooks/useTrainingPlan'
+import { PlanSwitcher } from '../components/PlanSwitcher'
 import { ProgressRing } from '../components/ProgressRing'
 
-function countDrills(sessionId: string): number {
-  const session = getSessionById(sessionId)
+function countDrills(sessionId: string, planId: ReturnType<typeof useTrainingPlan>['planId']) {
+  const session = getSessionById(sessionId, planId)
   if (!session) return 0
   return session.blocks.reduce((sum, b) => sum + b.drills.length, 0)
 }
 
 export function WeekPage() {
-  const { getSessionCompletion } = useProgress()
+  const { planId, plan, weekSchedule, switchPlan } = useTrainingPlan()
+  const { getSessionCompletion } = useProgress(planId)
   const todayKey = ['sunday', 'monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday'][new Date().getDay()]
 
   return (
     <div className="page">
       <header className="page-header">
         <p className="eyebrow">Weekly plan</p>
-        <h1>Your training week</h1>
-        <p className="subtitle">7-day structured plan — one focus per day</p>
+        <h1>{plan.name}</h1>
+        <p className="subtitle">{plan.description}</p>
       </header>
+
+      <PlanSwitcher planId={planId} onChange={switchPlan} />
 
       <div className="week-list">
         {weekSchedule.map((day) => {
           const isToday = day.key === todayKey
-          const session = day.sessionId ? getSessionById(day.sessionId) : null
-          const completion = session ? getSessionCompletion(session.id, countDrills(session.id)) : 0
+          const session = day.sessionId ? getSessionById(day.sessionId, planId) : null
+          const completion = session ? getSessionCompletion(session.id, countDrills(session.id, planId)) : 0
 
           return (
             <div key={day.key} className={`week-card ${isToday ? 'today' : ''}`}>

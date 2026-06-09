@@ -827,6 +827,29 @@ h3 {
   pointer-events: none;
 }
 
+.plan-switcher {
+  display: flex;
+  gap: 0.5rem;
+  margin-bottom: 0.75rem;
+}
+
+.plan-tab {
+  flex: 1;
+  padding: 0.55rem 0.75rem;
+  border-radius: var(--radius-sm);
+  font-size: 0.85rem;
+  font-weight: 600;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  color: var(--text-muted);
+}
+
+.plan-tab.active {
+  background: var(--court-mid);
+  border-color: var(--court-light);
+  color: var(--text);
+}
+
 .bottom-nav {
   position: fixed;
   bottom: 0;

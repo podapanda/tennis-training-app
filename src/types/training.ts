@@ -78,3 +78,13 @@ export interface WeeklyProgress {
   sessions: Record<string, SessionProgress>
   targets: Record<string, number>
 }
+
+export type PlanId = 'primary' | 'alternate'
+
+export interface TrainingPlan {
+  id: PlanId
+  name: string
+  description: string
+  weekSchedule: WeekDay[]
+  sessions: TrainingSession[]
+}

@@ -1,8 +1,10 @@
-import { performanceTargets } from '../data/trainingPlan'
+import { performanceTargets } from '../data/plans'
 import { useProgress } from '../hooks/useProgress'
+import { useTrainingPlan } from '../hooks/useTrainingPlan'
 
 export function StatsPage() {
-  const { progress, updateTarget, weekKey } = useProgress()
+  const { planId } = useTrainingPlan()
+  const { progress, updateTarget, weekKey } = useProgress(planId)
 
   return (
     <div className="page">

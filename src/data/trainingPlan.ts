@@ -913,21 +913,4 @@ export const trainingSessions: TrainingSession[] = [
   },
 ]
 
-export function getSessionById(id: string): TrainingSession | undefined {
-  return trainingSessions.find((s) => s.id === id)
-}
-
-export function getTodaySchedule(): WeekDay {
-  const days = ['sunday', 'monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday']
-  const todayKey = days[new Date().getDay()]
-  return weekSchedule.find((d) => d.key === todayKey) ?? weekSchedule[0]
-}
-
-export function getWeekKey(date = new Date()): string {
-  const d = new Date(date)
-  d.setHours(0, 0, 0, 0)
-  d.setDate(d.getDate() + 4 - (d.getDay() || 7))
-  const yearStart = new Date(d.getFullYear(), 0, 1)
-  const week = Math.ceil(((d.getTime() - yearStart.getTime()) / 86400000 + 1) / 7)
-  return `${d.getFullYear()}-W${String(week).padStart(2, '0')}`
-}
+export { getWeekKey } from '../utils/weekKey'

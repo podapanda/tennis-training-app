@@ -1,13 +1,15 @@
 import { useEffect, useState } from 'react'
 import { Link, useParams } from 'react-router-dom'
-import { getSessionById } from '../data/trainingPlan'
+import { getSessionById } from '../data/plans'
 import { useProgress } from '../hooks/useProgress'
+import { useTrainingPlan } from '../hooks/useTrainingPlan'
 import { DrillDetail } from '../components/DrillDetail'
 
 export function SessionPage() {
   const { sessionId } = useParams<{ sessionId: string }>()
-  const session = sessionId ? getSessionById(sessionId) : undefined
-  const { ensureSession, getDrillProgress, toggleDrillComplete, updateDrillProgress } = useProgress()
+  const { planId } = useTrainingPlan()
+  const session = sessionId ? getSessionById(sessionId, planId) : undefined
+  const { ensureSession, getDrillProgress, toggleDrillComplete, updateDrillProgress } = useProgress(planId)
   const [activeBlockIdx, setActiveBlockIdx] = useState(0)
   const [activeDrillIdx, setActiveDrillIdx] = useState(0)
 

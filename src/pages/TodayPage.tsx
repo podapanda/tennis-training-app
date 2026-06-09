@@ -1,17 +1,21 @@
 import { Link } from 'react-router-dom'
-import { footworkRoutine, getSessionById, getTodaySchedule } from '../data/trainingPlan'
+import { footworkRoutine } from '../data/trainingPlan'
+import { getSessionById, getTodaySchedule } from '../data/plans'
 import { useProgress } from '../hooks/useProgress'
+import { useTrainingPlan } from '../hooks/useTrainingPlan'
+import { PlanSwitcher } from '../components/PlanSwitcher'
 import { ProgressRing } from '../components/ProgressRing'
 
-function countDrills(sessionId: string): number {
-  const session = getSessionById(sessionId)
+function countDrills(sessionId: string, planId: ReturnType<typeof useTrainingPlan>['planId']) {
+  const session = getSessionById(sessionId, planId)
   if (!session) return 0
   return session.blocks.reduce((sum, b) => sum + b.drills.length, 0)
 }
 
 export function TodayPage() {
-  const today = getTodaySchedule()
-  const { getSessionCompletion } = useProgress()
+  const { planId, plan, switchPlan } = useTrainingPlan()
+  const today = getTodaySchedule(planId)
+  const { getSessionCompletion } = useProgress(planId)
 
   if (today.footworkOnly) {
     return (
@@ -21,6 +25,8 @@ export function TodayPage() {
           <h1>Rest & Footwork</h1>
           <p className="subtitle">10-minute daily routine to stay sharp</p>
         </header>
+
+        <PlanSwitcher planId={planId} onChange={switchPlan} />
 
         <section className="card card-highlight">
           <h2>Today&apos;s focus</h2>
@@ -45,16 +51,16 @@ export function TodayPage() {
     )
   }
 
-  const session = today.sessionId ? getSessionById(today.sessionId) : null
+  const session = today.sessionId ? getSessionById(today.sessionId, planId) : null
   if (!session) return null
 
-  const totalDrills = countDrills(session.id)
+  const totalDrills = countDrills(session.id, planId)
   const completion = getSessionCompletion(session.id, totalDrills)
 
   return (
     <div className="page">
       <header className="page-header">
-        <p className="eyebrow">{today.label}</p>
+        <p className="eyebrow">{today.label} · {plan.name}</p>
         <h1>{session.title}</h1>
         <p className="subtitle">{session.subtitle}</p>
         <div className="session-meta">
@@ -63,6 +69,8 @@ export function TodayPage() {
           <span>{session.blocks.length} blocks</span>
         </div>
       </header>
+
+      <PlanSwitcher planId={planId} onChange={switchPlan} />
 
       <section className="card card-highlight today-card">
         <div className="today-progress">

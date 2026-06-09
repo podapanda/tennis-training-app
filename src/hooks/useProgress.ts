@@ -1,8 +1,11 @@
 import { useCallback, useEffect, useState } from 'react'
-import type { DrillProgress, WeeklyProgress } from '../types/training'
-import { getWeekKey, performanceTargets } from '../data/trainingPlan'
+import type { DrillProgress, PlanId, WeeklyProgress } from '../types/training'
+import { performanceTargets } from '../data/plans'
+import { getWeekKey } from '../utils/weekKey'
 
 const STORAGE_KEY = 'tennis-training-progress'
+
+type StoredProgress = Partial<Record<PlanId, WeeklyProgress>> & { weekKey?: string }
 
 function createEmptyWeek(weekKey: string): WeeklyProgress {
   return {
@@ -12,33 +15,58 @@ function createEmptyWeek(weekKey: string): WeeklyProgress {
   }
 }
 
-function loadProgress(): WeeklyProgress {
+function migrateLegacy(stored: StoredProgress): StoredProgress {
+  if (!stored.weekKey) return stored
+  const { weekKey, sessions, targets } = stored as StoredProgress & WeeklyProgress
+  return {
+    primary: {
+      weekKey: weekKey!,
+      sessions: sessions ?? {},
+      targets: targets ?? createEmptyWeek(weekKey!).targets,
+    },
+  }
+}
+
+function loadProgress(planId: PlanId): WeeklyProgress {
   const weekKey = getWeekKey()
   try {
     const raw = localStorage.getItem(STORAGE_KEY)
     if (!raw) return createEmptyWeek(weekKey)
-    const stored = JSON.parse(raw) as WeeklyProgress
-    if (stored.weekKey !== weekKey) return createEmptyWeek(weekKey)
+    let stored = JSON.parse(raw) as StoredProgress
+    if (stored.weekKey) stored = migrateLegacy(stored)
+    const planProgress = stored[planId]
+    if (!planProgress || planProgress.weekKey !== weekKey) return createEmptyWeek(weekKey)
     return {
       ...createEmptyWeek(weekKey),
-      ...stored,
-      targets: { ...createEmptyWeek(weekKey).targets, ...stored.targets },
+      ...planProgress,
+      targets: { ...createEmptyWeek(weekKey).targets, ...planProgress.targets },
     }
   } catch {
     return createEmptyWeek(weekKey)
   }
 }
 
-function saveProgress(progress: WeeklyProgress) {
-  localStorage.setItem(STORAGE_KEY, JSON.stringify(progress))
+function saveProgress(planId: PlanId, progress: WeeklyProgress) {
+  const raw = localStorage.getItem(STORAGE_KEY)
+  let stored: StoredProgress = {}
+  if (raw) {
+    stored = JSON.parse(raw) as StoredProgress
+    if (stored.weekKey) stored = migrateLegacy(stored)
+  }
+  stored[planId] = progress
+  localStorage.setItem(STORAGE_KEY, JSON.stringify(stored))
 }
 
-export function useProgress() {
-  const [progress, setProgress] = useState<WeeklyProgress>(loadProgress)
+export function useProgress(planId: PlanId) {
+  const [progress, setProgress] = useState<WeeklyProgress>(() => loadProgress(planId))
 
   useEffect(() => {
-    saveProgress(progress)
-  }, [progress])
+    setProgress(loadProgress(planId))
+  }, [planId])
+
+  useEffect(() => {
+    saveProgress(planId, progress)
+  }, [planId, progress])
 
   const ensureSession = useCallback((sessionId: string) => {
     setProgress((prev) => {
