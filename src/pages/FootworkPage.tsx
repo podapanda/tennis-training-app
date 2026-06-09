@@ -1,59 +1,63 @@
 import { useState } from 'react'
-import { footworkRoutine } from '../data/trainingPlan'
-import { TimerPanel } from '../components/TimerPanel'
+import type { VideoLink } from '../types/training'
+import { footworkPatternCategories } from '../data/footworkPatterns'
+import { VideoEmbedModal } from '../components/VideoEmbedModal'
+import { VideoPreviewCard } from '../components/VideoPreviewCard'
+import { isEmbeddable } from '../utils/videoEmbed'
 
 export function FootworkPage() {
-  const [activeStep, setActiveStep] = useState(0)
-  const step = footworkRoutine[activeStep]
-  const totalMinutes = footworkRoutine.reduce((s, f) => s + f.durationMinutes, 0)
+  const [activeCategoryId, setActiveCategoryId] = useState(footworkPatternCategories[0].id)
+  const [activeVideo, setActiveVideo] = useState<VideoLink | null>(null)
+
+  const activeCategory = footworkPatternCategories.find((c) => c.id === activeCategoryId)
+    ?? footworkPatternCategories[0]
+
+  const openVideo = (video: VideoLink) => {
+    if (isEmbeddable(video.url)) {
+      setActiveVideo(video)
+    } else {
+      window.open(video.url, '_blank', 'noopener,noreferrer')
+    }
+  }
 
   return (
     <div className="page">
       <header className="page-header">
-        <p className="eyebrow">Daily routine</p>
-        <h1>10-Minute Footwork</h1>
-        <p className="subtitle">Do this on rest days or before any session</p>
+        <p className="eyebrow">Reference library</p>
+        <h1>Footwork and Positioning Patterns</h1>
+        <p className="subtitle">Video tutorials on common footwork patterns and positioning</p>
       </header>
 
-      <section className="card card-highlight">
-        <p className="progress-label">{activeStep + 1} of {footworkRoutine.length}</p>
-        <h2>{step.name}</h2>
-        <TimerPanel
-          key={step.name}
-          durationMinutes={step.durationMinutes}
-          onComplete={() => {
-            if (activeStep < footworkRoutine.length - 1) {
-              setActiveStep((s) => s + 1)
-            }
-          }}
-        />
-      </section>
+      <div className="block-tabs scroll-x">
+        {footworkPatternCategories.map((category) => (
+          <button
+            key={category.id}
+            type="button"
+            className={`block-tab ${category.id === activeCategoryId ? 'active' : ''}`}
+            onClick={() => setActiveCategoryId(category.id)}
+          >
+            {category.shortTitle}
+          </button>
+        ))}
+      </div>
 
-      <section className="card">
-        <h3>Full routine ({totalMinutes} min)</h3>
-        <ul className="mini-list">
-          {footworkRoutine.map((s, i) => (
-            <li key={s.name}>
-              <button
-                type="button"
-                className={`step-btn ${i === activeStep ? 'active' : ''}`}
-                onClick={() => setActiveStep(i)}
-              >
-                <span>{i + 1}. {s.name}</span>
-                <span className="muted">{s.durationMinutes} min</span>
-              </button>
-            </li>
+      <section className="card pattern-category">
+        <h2>{activeCategory.title}</h2>
+        <p className="muted">{activeCategory.videos.length} clip{activeCategory.videos.length !== 1 ? 's' : ''}</p>
+        <div className="video-preview-grid">
+          {activeCategory.videos.map((video) => (
+            <VideoPreviewCard
+              key={video.url}
+              video={video}
+              onClick={() => openVideo(video)}
+            />
           ))}
-        </ul>
+        </div>
       </section>
 
-      <section className="card tip-card">
-        <h3>Why it matters</h3>
-        <p>
-          This routine builds the movement patterns behind consistency, approach shots,
-          court coverage, and aggressive doubles positioning — all at once.
-        </p>
-      </section>
+      {activeVideo && (
+        <VideoEmbedModal video={activeVideo} onClose={() => setActiveVideo(null)} />
+      )}
     </div>
   )
 }

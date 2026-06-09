@@ -4,8 +4,10 @@ export function getEmbedUrl(url: string, startSeconds?: number): string | null {
     let embedUrl: string | null = null
 
     if (parsed.hostname.includes('instagram.com')) {
-      const match = parsed.pathname.match(/\/(p|reel)\/([^/]+)/)
-      if (match) embedUrl = `https://www.instagram.com/${match[1]}/${match[2]}/embed`
+      const reelMatch = parsed.pathname.match(/\/reel\/([^/]+)/)
+      const postMatch = parsed.pathname.match(/\/p\/([^/]+)/)
+      if (reelMatch) embedUrl = `https://www.instagram.com/reel/${reelMatch[1]}/embed`
+      else if (postMatch) embedUrl = `https://www.instagram.com/p/${postMatch[1]}/embed`
     }
 
     if (parsed.hostname.includes('youtu.be')) {
